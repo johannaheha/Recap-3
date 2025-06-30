@@ -22,10 +22,17 @@ async function fetchCharacters() {
   const response = await fetch(ApiUrl);
   const data = await response.json();
   console.log(data);
-  // console.log(data.characters);
+
+  //Task 3 create dynamic character card
+  cardContainer.innerHTML = "";
+
+  data.results.forEach((c) => {
+    const newCharacterCard = createCharacterCard(c);
+    cardContainer.append(newCharacterCard);
+  });
 }
 fetchCharacters();
 
 // Task 2 character card create
-const card = createCharacterCard();
-cardContainer.append(card);
+// const card = createCharacterCard();
+// cardContainer.append(card);

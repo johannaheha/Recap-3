@@ -25,21 +25,24 @@ async function fetchCharacters() {
       `https://rickandmortyapi.com/api/character?page=${page}&name=${searchQuery}`
     );
 
-    if (!response.ok) {
-      cardContainer.innerHTML = "<p>No characters found!</p>";
-      return;
-    }
+    // if (!response.ok) {
+    //   cardContainer.innerHTML = "<p>No characters found!</p>";
+    //   return;
+    // }
     const data = await response.json();
 
     maxPage = data.info.pages;
-    pagination.textContent = `${page} / ${maxPage}`;
+
+    navigation.classList.remove("navigation--hidden");
 
     data.results.forEach((result) => {
       const newCharacterCard = createCharacterCard(result);
       cardContainer.append(newCharacterCard);
     });
+    pagination.textContent = `${page} / ${maxPage}`;
   } catch (error) {
     cardContainer.innerHTML = "<p>Error loading characters</p>";
+    navigation.classList.add("navigation--hidden");
   }
 }
 fetchCharacters();

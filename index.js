@@ -18,23 +18,29 @@ let searchQuery = "";
 //Task 1 create function fetchCharacters
 
 async function fetchCharacters() {
-  const response = await fetch(
-    `https://rickandmortyapi.com/api/character?page=${page}&name=${searchQuery}`
-  );
-  const data = await response.json();
-  maxPage = data.info.pages;
-  console.log(data);
-  // console.log(data);
-  // console.log(maxPage);
-
-  //Task 3 create dynamic character card
   cardContainer.innerHTML = "";
 
-  data.results.forEach((result) => {
-    const newCharacterCard = createCharacterCard(result);
-    cardContainer.append(newCharacterCard);
-  });
-  pagination.textContent = `${page} / ${maxPage}`;
+  try {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character?page=${page}&name=${searchQuery}`
+    );
+
+    if (!response.ok) {
+      cardContainer.innerHTML = "<p>No characters found!</p>";
+      return;
+    }
+    const data = await response.json();
+
+    maxPage = data.info.pages;
+    pagination.textContent = `${page} / ${maxPage}`;
+
+    data.results.forEach((result) => {
+      const newCharacterCard = createCharacterCard(result);
+      cardContainer.append(newCharacterCard);
+    });
+  } catch (error) {
+    cardContainer.innerHTML = "<p>Error loading characters</p>";
+  }
 }
 fetchCharacters();
 

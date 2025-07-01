@@ -30,8 +30,8 @@ async function fetchCharacters() {
   //Task 3 create dynamic character card
   cardContainer.innerHTML = "";
 
-  data.results.forEach((c) => {
-    const newCharacterCard = createCharacterCard(c);
+  data.results.forEach((result) => {
+    const newCharacterCard = createCharacterCard(result);
     cardContainer.append(newCharacterCard);
   });
   pagination.textContent = `${page} / ${maxPage}`;
